@@ -61,13 +61,41 @@
         box-sizing: border-box;
     }
 
+    @keyframes border-animate {
+    0% {
+        border-color: white;
+        /* border-width: 5px; */
+    }
+    25% {
+        border-top-color: green;
+    }
+    50% {
+        border-right-color: green;
+        border-top-color: green;
+
+    }
+    75% {
+        border-bottom-color: green;
+        border-right-color: green;
+        border-top-color: green;
+    }
+    100% {
+        border-left-color: green;
+        border-bottom-color: green;
+        border-right-color: green;
+        border-top-color: green;
+    }
+    }
+
+
     .smallImageContainer.border {
         border-width: 0.2vh;
         border-style: solid;
     }
 
     .smallImageContainer.verifiedSustainable {
-       border-color: #159e00;
+       /* border-color: #159e00; */
+       animation: border-animate 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
 
     .smallImageContainer.notVerifiedSustainable {
