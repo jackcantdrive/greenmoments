@@ -68,9 +68,9 @@ const updateTimeRemaining = () => {
         timeRemainingEle.textContent = timeRemainingStr;
     } else {
         // too late. pay B3TR or wait for next day
-        console.log('too late. pay B3TR or wait for next day')
+        // console.log('too late. pay B3TR or wait for next day')
 
-        timeRemainingEle.textContent = 'You missed the period.';
+        timeRemainingEle.textContent = 'You missed the period. Come again tomorrow or unlock for 1 B3TR.';
     }
 }
 
