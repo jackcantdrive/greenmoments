@@ -5,6 +5,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { v4 as uuidv4 } from 'uuid';
 import { verifyImage } from './verification.js';
+import cors from 'cors';
 
 import { fileURLToPath } from 'url';
 // Get __dirname equivalent
@@ -12,8 +13,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
-const port = 443;
+const port = 444;
 
+app.use(cors())
 
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));

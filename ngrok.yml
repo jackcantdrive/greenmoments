@@ -1,0 +1,13 @@
+version: "2"
+authtoken: 2m5Bu8jrjLRTqOJjnMxf20ZBouR_4thxYmWC4KvqL8nh8pzr5 
+tunnels:
+  api1:
+    addr: https://localhost:443
+    schemes: 
+      - https
+    proto: http
+  api2:
+    addr: https://localhost:444
+    schemes: 
+      - https
+    proto: http

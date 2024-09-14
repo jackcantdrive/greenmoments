@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite';
 import { nodePolyfills } from 'vite-plugin-node-polyfills';
+import fs from 'fs';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -15,9 +17,13 @@ export default defineConfig(({ mode }) => ({
         strictPort: true,
     },
     server: {
-        port: 5003,
+        port: 443,
         strictPort: true,
         host: true,
-        origin: 'http://0.0.0.0:5003',
+        origin: 'https://0.0.0.0:5003',
+        https: {
+        key: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/privkey.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/fullchain.pem'))
+        }
     },
 }));

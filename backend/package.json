@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.21.0",
     "openai": "^4.61.0",
     "sharp": "^0.33.5",

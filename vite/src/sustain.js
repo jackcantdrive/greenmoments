@@ -1,3 +1,6 @@
+
+const SERVER_ADDRESS = 'https://25e4-155-69-193-63.ngrok-free.app';
+
 // import { DAppKitUI } from '@vechain/dapp-kit-ui';
 
 // const walletConnectOptions = {
@@ -224,15 +227,16 @@ async function submitPost() {
     const postData = userPost;
     const postDataClone = {...userPost};
     delete postDataClone.postEle;
-    const response = await fetch('/addPost', {
+    const response = await fetch(SERVER_ADDRESS + '/addPost', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json',
+            "ngrok-skip-browser-warning": "1",
         },
         body: JSON.stringify(postDataClone)
     });
     const responseData = await response.json();
-    postDataWithVerification = responseData.data;
+    const postDataWithVerification = responseData.data;
 
     if (userPost === postData) {
         userPost = {...userPost, ...postDataWithVerification}
@@ -240,7 +244,6 @@ async function submitPost() {
             setPostBorder(userPost, userPost.postEle)
         }
     }
-
 }
 
 const removeActiveTakeUI = () => {
@@ -498,8 +501,16 @@ updateBlurOnFriendsPosts();
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
 
 const loadPosts = async () => {
-    const postsData = await (await fetch('/getPosts')).json();
+    const postsData = await (await fetch(SERVER_ADDRESS + '/getPosts', {
+        headers: {
+            "ngrok-skip-browser-warning": "1",
+        }
+    })).json();
     postsData.sort((a,b) => b.timestamp - a.timestamp);
     addsFriendsPosts(postsData);
 }
 loadPosts();
+
+window.switchToActiveTakeUI = switchToActiveTakeUI; // oh no
+window.shutter = shutter;
+window.post = post;
