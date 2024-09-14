@@ -321,4 +321,5 @@ let updateTimeRemainingInterval;
 
 addTakeContainer();
 updateBlurOnFriendsPosts();
+addsFriendsPosts(exampleFriendsPosts)
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
