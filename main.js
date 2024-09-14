@@ -1,5 +1,6 @@
 let pauseDrawingWebcamToCanvas = false;
 let webcamStarted = false;
+let userPostDataUrl;
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -55,7 +56,6 @@ const addActiveTakeUI = () => {
 
 
 const shutter = () => {
-
     if (!webcamStarted) {
         return;
     }
@@ -93,7 +93,10 @@ const post = () => {
     const base64 = targetCanvas.toDataURL();
     console.log(base64)
 
-    switchToSmallTakeContainer();
+    userPostDataUrl = base64;
+
+    // switchToSmallTakeContainer();
+    switchToHavePostedUI();
 }
 
 const removeActiveTakeUI = () => {
@@ -177,10 +180,16 @@ const addHavePostedUI = () => {
 
     ele.outerHTML = `<div id="imageOuterContainer">
             <div class="smallImageContainer">
-                <img src="rainforest.jpg"\>
+                <img src="${userPostDataUrl}"\>
             </div>
             <p id="postText">05:42</p>
         </div>`
+}
+
+const switchToHavePostedUI = () => {
+    console.assert(showingActiveTakeContainer());
+    removeActiveTakeUI();
+    addHavePostedUI();
 }
 
 let takeContainer;
