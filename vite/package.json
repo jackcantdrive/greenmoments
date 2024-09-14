@@ -1,0 +1,23 @@
+{
+    "name": "sample-vanilla-app-2",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "tsc && vite build --mode=development",
+        "clean": "rm -rf dist .turbo",
+        "dev": "vite",
+        "dev-host": "vite dev --host",
+        "gh-pages-build": "tsc && vite build",
+        "preview": "vite preview --mode=development",
+        "purge": "yarn clean; rm -rf node_modules"
+    },
+    "dependencies": {
+        "@vechain/dapp-kit-ui": "*",
+        "vite-plugin-node-polyfills": "^0.22.0"
+    },
+    "devDependencies": {
+        "typescript": "^5.2.2",
+        "vite": "^5.3.2"
+    }
+}
