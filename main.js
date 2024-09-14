@@ -74,6 +74,20 @@ const updateTimeRemaining = () => {
     }
 }
 
+const addHavePostedUI = () => {
+    const header = document.getElementById('header');
+    const ele = document.createElement('div');
+
+    header.after(ele);
+
+    ele.outerHTML = `<div id="imageOuterContainer">
+            <div class="smallImageContainer">
+                <img src="rainforest.jpg"\>
+            </div>
+            <p id="postText">05:42</p>
+        </div>`
+}
+
 
 const tick = () => {
 
