@@ -152,13 +152,6 @@
         object-fit: cover;
     }
 
-    /* #video {
-        width: 20vh;
-        /* border: 1px solid red; */
-        /* width: 1px; */
-    /*} */
-
-
     .video-container {
         position: relative;
         display: inline-block;
@@ -256,8 +249,8 @@
         </div>
     </div>
 
-    <!-- <script src='main.js'></script> -->
     <script>
+        // Cache buster for ios safari
         const timestamp = new Date().getTime();
         const script = document.createElement('script');
         script.src = `main.js?t=${timestamp}`;
