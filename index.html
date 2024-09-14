@@ -123,7 +123,38 @@
     #imagePlaceHolderBeforeTaken {
         border: 1px solid #fff;
     }
-    
+
+    #activeTakeContainer {
+        /* height: 80vh;
+        border: 1px solid red; */
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #activeCameraContainer {
+        border-radius: 2.64vh;
+        width: 30.9375vh; 
+        height: 55vh;/* ^*16/9 */
+        border: 1px solid red;
+        /* width: 40%;
+        padding: 40% 22.5%;
+        box-sizing: border-box;
+        position: relative; */
+        overflow: hidden;
+    }
+
+    #activeCameraContainer canvas {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    #video {
+        width: 20vh;
+        border: 1px solid red;
+    }
 </style>
 </head>
 <body>
@@ -131,6 +162,18 @@
         <div id="header">
             <div id='title'>Sustain</div>
         </div>
+
+        <button onclick="startCamera()">camera</button>
+
+        <video id="video" autoplay></video>
+
+        <div id="activeTakeContainer">
+            <div id="activeCameraContainer">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+
+
 
         <div id="takeButtonContainer">
             <div id='imagePlaceHolderBeforeTaken' class="smallImageContainer">
@@ -184,5 +227,14 @@
             </div>
         </div>
     </div>
+
+    <!-- <script src='main.js'></script> -->
+    <script>
+        const timestamp = new Date().getTime();
+        const script = document.createElement('script');
+        script.src = `main.js?t=${timestamp}`;
+        document.body.appendChild(script);
+    </script>
+
 </body>
 </html>
