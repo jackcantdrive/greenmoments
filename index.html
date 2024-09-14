@@ -15,6 +15,7 @@
         background-color: #000;
         min-height: 100vh;
         color: #fff;
+        font-family: sans-serif;
     }
 
     #mainContainer p {
@@ -189,7 +190,7 @@
             <div id='title'>Sustain</div>
         </div>
 
-        <button onclick="startCamera()">camera</button>
+        <!-- <button onclick="startCamera()">camera</button> -->
         <div class="video-container">
             <video id="video" autoplay></video>
         </div>
@@ -202,7 +203,7 @@
 
 
 
-        <div id="takeButtonContainer">
+        <div id="takeButtonContainer" onclick="startCamera()">
             <div id='imagePlaceHolderBeforeTaken' class="smallImageContainer">
             </div>
             <div class="button">
