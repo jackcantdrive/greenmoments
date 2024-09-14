@@ -69,7 +69,8 @@ const shutter = () => {
 const post = () => {
     const canvas = document.getElementById('canvas');
 
-    const targetCanvas = document.getElementById('targetCanvas');
+    // const targetCanvas = document.getElementById('targetCanvas');
+    const targetCanvas = document.createElement('canvas');
     targetCanvas.width = 1080;
     targetCanvas.height = 1920;
     const targetCtx = targetCanvas.getContext('2d');
@@ -91,7 +92,7 @@ const post = () => {
     );
 
     const base64 = targetCanvas.toDataURL();
-    console.log(base64)
+    // console.log(base64)
 
     userPostDataUrl = base64;
 
@@ -189,6 +190,7 @@ const addHavePostedUI = () => {
 const switchToHavePostedUI = () => {
     console.assert(showingActiveTakeContainer());
     removeActiveTakeUI();
+    clearInterval(updateTimeRemainingInterval);
     addHavePostedUI();
 }
 
