@@ -237,7 +237,7 @@ const updateBlurOnFriendsPosts = () => {
 
 const addHavePostedUI = () => {
     const header = document.getElementById('header');
-    const ele = document.createElement('div');
+    let ele = document.createElement('div');
 
     header.after(ele);
 
@@ -247,6 +247,10 @@ const addHavePostedUI = () => {
             </div>
             <p id="postText">${formatTimestamp(userPost.timestamp)}</p>
         </div>`
+
+    ele = header.parentElement.querySelector('#imageOuterContainer')
+    setPostBorder(userPost, ele);
+    
 }
 
 const exampleFriendsPosts = [
@@ -261,6 +265,16 @@ const exampleFriendsPosts = [
         dataUrl: 'rainforest.jpg'
     },
 ];
+
+const setPostBorder = (postData, postEle) => {
+    const classList = postEle.querySelector('.smallImageContainer').classList;
+    classList.add('border');
+    if (postData.sustainable) {
+        classList.add('verifiedSustainable');
+    } else {
+        classList.add('notVerifiedSustainable');
+    }
+}
 
 const addFriendPost = postData => {
     let postEle = document.createElement('div');
@@ -298,6 +312,7 @@ const addFriendPost = postData => {
 
 
     postEle = outerTemp.children[0];
+    setPostBorder(postData, postEle);
     postEle.querySelector('img').src = postData.dataUrl;
     postEle.querySelector('#postText').textContent = formatTimestamp(postData.timestamp);
     postEle.querySelector('.friendTag > p').textContent = postData.username;
