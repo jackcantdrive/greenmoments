@@ -148,6 +148,14 @@
         box-sizing: border-box;
         position: relative; */
         overflow: hidden;
+
+        display: flex;
+        justify-content: center;
+    }
+
+    #activeCameraContainer p {
+        position: absolute;
+        margin-top: 1vh;
     }
 
     #activeCameraContainer canvas {
@@ -183,6 +191,23 @@
     #timeRemaining {
         margin: 0.5vh;
     }
+
+    #shutterButton {
+        margin-bottom: 1vh;
+        width: 4vh;
+        height: 4vh;
+        /* background: rgba(255, 255, 255, 0.6); */
+        position: absolute;
+        /* bottom: 1vh; */
+        top: 54.5vh;
+        border-radius: 100%;
+        border: 0.3vh solid #000;
+    }
+
+    #postButton {
+        position: absolute;
+        top: 49vh;
+    }
 </style>
 </head>
 <body>
@@ -195,17 +220,20 @@
             <video id="video" autoplay></video>
         </div>
 
+
+        <canvas id="targetCanvas" style="height:192px;width:108px;border:1px solid #f00"></canvas>
+
         
 
 
-        <div id="takeButtonContainer" onclick="switchToActiveTakeUI()">
+        <!-- <div id="takeButtonContainer" onclick="switchToActiveTakeUI()">
             <div id='imagePlaceHolderBeforeTaken' class="smallImageContainer">
                 <p id="timeRemaining"></p>
             </div>
             <div class="button">
                 Take your Sustain
             </div>
-        </div>
+        </div> -->
 
         <div id="friendsPosts">
             
