@@ -38,6 +38,10 @@ app.post('/addPost', (req, res) => {
   // Create the filename for the post data
   const filePath = path.join(postsDir, `${id}.json`);
 
+  const verifiedSustainable = true;
+
+  postData.sustainable = verifiedSustainable;
+
   // Write the post data to a JSON file
   fs.writeFile(filePath, JSON.stringify(postData, null, 2), (err) => {
     if (err) {
@@ -46,7 +50,10 @@ app.post('/addPost', (req, res) => {
     }
 
     console.log('Post saved successfully:', filePath);
-    res.json({ message: 'Post received and saved successfully', id, data: postData });
+    res.json({
+        message: 'Post received and saved successfully',
+        id, data: postData,
+    });
   });
 });
 

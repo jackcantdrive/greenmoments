@@ -115,13 +115,27 @@ const post = () => {
 }
 
 async function submitPost() {
+
+    const postData = userPost;
+    const postDataClone = {...userPost};
+    delete postDataClone.postEle;
     const response = await fetch('/addPost', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json' 
         },
-        body: JSON.stringify(userPost)
+        body: JSON.stringify(postDataClone)
     });
+    const responseData = await response.json();
+    postDataWithVerification = responseData.data;
+
+    if (userPost === postData) {
+        userPost = {...userPost, ...postDataWithVerification}
+        if (userPost.postEle) {
+            setPostBorder(userPost, userPost.postEle)
+        }
+    }
+
 }
 
 const removeActiveTakeUI = () => {
@@ -249,8 +263,8 @@ const addHavePostedUI = () => {
         </div>`
 
     ele = header.parentElement.querySelector('#imageOuterContainer')
+    userPost.postEle = ele;
     setPostBorder(userPost, ele);
-    
 }
 
 const exampleFriendsPosts = [
