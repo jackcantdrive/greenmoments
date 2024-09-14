@@ -54,6 +54,10 @@ async function startCamera() {
     const canvas = document.getElementById('canvas');
     const context = canvas.getContext('2d');
 
+    video.setAttribute('autoplay', '');
+    video.setAttribute('muted', '');
+    video.setAttribute('playsinline', '')
+
     // video.srcObject = stream;
 
     // const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -70,11 +74,11 @@ async function startCamera() {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
-        // const draw = () => {
-        //     context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        //     // requestAnimationFrame(draw);
-        // };
-        // draw();
+        const draw = () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            requestAnimationFrame(draw);
+        };
+        draw();
         // setInterval(draw, 1000/60)
     };
     // } catch (error) {

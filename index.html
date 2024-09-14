@@ -151,9 +151,35 @@
         object-fit: cover;
     }
 
-    #video {
+    /* #video {
         width: 20vh;
-        border: 1px solid red;
+        /* border: 1px solid red; */
+        /* width: 1px; */
+    /*} */
+
+
+    .video-container {
+        position: relative;
+        display: inline-block;
+        width: 1px;
+        height: 1px;
+    }
+
+    .video-container video {
+        display: block;
+        width: 1px;
+        height: 1px;
+    }
+
+    .video-container::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 1);
+        pointer-events: none;
     }
 </style>
 </head>
@@ -164,8 +190,9 @@
         </div>
 
         <button onclick="startCamera()">camera</button>
-
-        <video id="video" autoplay></video>
+        <div class="video-container">
+            <video id="video" autoplay></video>
+        </div>
 
         <div id="activeTakeContainer">
             <div id="activeCameraContainer">
