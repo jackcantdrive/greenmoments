@@ -36,6 +36,16 @@ async function startCamera() {
     };
 }
 
+
+const getSustainableAction = () => {
+    const actions = [
+        'Try finding a piece of litter to clean up and throw it in the trash or recycling.',
+        'Take a moment to water a plant in your home or neighborhood.',
+    ];
+
+    return actions[1];
+}
+
 const nextRewardTime = +new Date() + 1000 * 1;
 const periodDuration = 1000 * 60 * 1;
 
@@ -45,15 +55,12 @@ const addActiveTakeUI = () => {
     const activeTakeContainer = document.createElement('div')
     header.after(activeTakeContainer);
 
-    const actions = [
-        'Try finding a piece of litter to clean up and throw it in the trash or recycling.',
-        'Take a moment to water a plant in your home or neighborhood.',
-    ]
+    
 
     activeTakeContainer.outerHTML = `<div id="activeTakeContainer">
         <div id="activeCameraContainer">
             <p id='timeRemaining'></p>
-            <p id='sustainableActionText'>Action of the day: ${actions[1]}</p>
+            <p id='sustainableActionText'>Action of the day: ${getSustainableAction()}</p>
             <canvas id="canvas"></canvas>
             <div id='postButton' style='display:none;' class='button' onclick='post()'>Post</div>
             <div id='shutterButton' class='button' onclick='shutter()'>Take Photo</div>
@@ -108,6 +115,7 @@ const post = () => {
     // console.log(base64)
 
     userPost.dataUrl = base64;
+    userPost.promptSustainableAction = getSustainableAction();
 
     // switchToSmallTakeContainer();
     switchToHavePostedUI();

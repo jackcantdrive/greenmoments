@@ -1,10 +1,15 @@
-const express = require('express');
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
-const bodyParser = require('body-parser');
-const { v4: uuidv4 } = require('uuid');
+import express from 'express';
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import bodyParser from 'body-parser';
+import { v4 as uuidv4 } from 'uuid';
+import { verifyImage } from './verification.js';
 
+import { fileURLToPath } from 'url';
+// Get __dirname equivalent
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 443;
@@ -28,7 +33,7 @@ if (!fs.existsSync(postsDir)) {
   fs.mkdirSync(postsDir);
 }
 
-app.post('/addPost', (req, res) => {
+app.post('/addPost', async (req, res) => {
   const postData = req.body;
 
   // Generate a unique ID with a timestamp
@@ -38,9 +43,8 @@ app.post('/addPost', (req, res) => {
   // Create the filename for the post data
   const filePath = path.join(postsDir, `${id}.json`);
 
-  const verifiedSustainable = true;
-
-  postData.sustainable = verifiedSustainable;
+  const verificationResult = await verifyPost(postData);
+  postData.sustainable = verificationResult.verifiedSustainable;
 
   // Write the post data to a JSON file
   fs.writeFile(filePath, JSON.stringify(postData, null, 2), (err) => {
@@ -52,10 +56,14 @@ app.post('/addPost', (req, res) => {
     console.log('Post saved successfully:', filePath);
     res.json({
         message: 'Post received and saved successfully',
-        id, data: postData,
+        id, data: postData, verificationResult
     });
   });
 });
+
+const verifyPost = async postData => {
+    return await verifyImage(postData.dataUrl, postData.promptSustainableAction);
+}
 
 app.get('/getPosts', (req, res) => {
     // const { since } = req.query;
