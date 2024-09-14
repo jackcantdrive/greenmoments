@@ -97,7 +97,7 @@ const post = () => {
         0, 0, targetCanvas.width, targetCanvas.height
     );
 
-    const base64 = targetCanvas.toDataURL();
+    const base64 = targetCanvas.toDataURL('image/jpeg');
     // console.log(base64)
 
     userPost.dataUrl = base64;
@@ -190,6 +190,24 @@ const updateTimeRemaining = () => {
     
 }
 
+const fnv1aHash = str => {
+    let hash = 2166136261n; // FNV-1a offset basis
+    for (let i = 0; i < str.length; i++) {
+    hash ^= BigInt(str.charCodeAt(i));
+    hash *= 16777619n; // FNV-1a prime
+    }
+    return hash;
+}
+const stringHashTo01 = str => {
+    
+
+    const hash = fnv1aHash(str);
+
+    const a = 0xFFFFFFFFFFFFFFFFn;
+    const randomNumber = Number(hash % a)/Number(a)
+    return randomNumber;
+}
+
 function formatTimestamp(timestamp) {
     const date = new Date(timestamp);
 
@@ -204,10 +222,10 @@ const updateBlurOnFriendsPosts = () => {
     const friendsPostsBlurable = document.getElementById('friendsPostsBlurable');
 
     const hideFriendsPosts = userPost.dataUrl === undefined;
-    friendsPostsBlurable.style.filter = hideFriendsPosts ? 'blur(5px)' : '';
+    friendsPostsBlurable.style.filter = hideFriendsPosts ? 'blur(10px)' : '';
 
     const whyFriendsBlurredEle = document.getElementById('whyFriendsBlurred');
-    whyFriendsBlurredEle.style.display = hideFriendsPosts ? '' : 'none';
+    whyFriendsBlurredEle.style.display = (hideFriendsPosts || whyFriendsBlurredEle.reason === 'NO_FRIEND_POSTS')  ? '' : 'none';
 }
 
 const addHavePostedUI = () => {
@@ -266,7 +284,7 @@ const addFriendPost = postData => {
                     </div>
                     <p id="postText"></p>
                     <div class="friendTag">
-                        <div class='friendIcon' style="background-color: #2e7c8a;"></div>
+                        <div class='friendIcon' style="background-color: rgba(${Math.floor(stringHashTo01('stug') * 360)}, 124, 138, 1);"></div>
                         <p></p>
                     </div>
                 </div>`
@@ -287,6 +305,7 @@ const addsFriendsPosts = friendsPosts => {
     let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
     if (friendsPosts.length === 0) {
         whyFriendsBlurred.textContent = `Your friends haven't posted their Sustain yet. Add even more friends.`;
+        whyFriendsBlurred.reason = 'NO_FRIEND_POSTS'
     } else {
         whyFriendsBlurred.textContent = `Post your Sustain to see friends`
     }
@@ -334,5 +353,11 @@ let updateTimeRemainingInterval;
 
 addTakeContainer();
 updateBlurOnFriendsPosts();
-addsFriendsPosts(exampleFriendsPosts)
+// addsFriendsPosts(exampleFriendsPosts)
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
+
+const loadPosts = async () => {
+    const postsData = await (await fetch('/getPosts')).json();
+    addsFriendsPosts(postsData);
+}
+loadPosts();
