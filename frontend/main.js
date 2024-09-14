@@ -1,6 +1,7 @@
 let pauseDrawingWebcamToCanvas = false;
 let webcamStarted = false;
-let userPost = {username: 'alexstock', dataUrl: undefined, timestamp: undefined};
+const testUsernames = ['alexstock', 'jacklatthe', 'maxandre']
+let userPost = {username: testUsernames[0], dataUrl: undefined, timestamp: undefined};
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -284,7 +285,7 @@ const addFriendPost = postData => {
                     </div>
                     <p id="postText"></p>
                     <div class="friendTag">
-                        <div class='friendIcon' style="background-color: rgba(${Math.floor(stringHashTo01('stug') * 360)}, 124, 138, 1);"></div>
+                        <div class='friendIcon' style="background-color: hsla(${Math.floor(stringHashTo01(postData.username) * 360)}, 50%, 36%, 1)"></div>
                         <p></p>
                     </div>
                 </div>`
@@ -358,6 +359,7 @@ updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
 
 const loadPosts = async () => {
     const postsData = await (await fetch('/getPosts')).json();
+    postsData.sort((a,b) => b.timestamp - a.timestamp);
     addsFriendsPosts(postsData);
 }
 loadPosts();
