@@ -138,7 +138,8 @@
         border-radius: 2.64vh;
         width: 30.9375vh; 
         height: 55vh;/* ^*16/9 */
-        border: 1px solid red;
+        /* border: 1px solid red; */
+        border: 1px solid #fff;
         /* width: 40%;
         padding: 40% 22.5%;
         box-sizing: border-box;
@@ -152,20 +153,20 @@
         object-fit: cover;
     }
 
-    .video-container {
+    #videoContainer {
         position: relative;
         display: inline-block;
         width: 1px;
         height: 1px;
     }
 
-    .video-container video {
+    #videoContainer video {
         display: block;
         width: 1px;
         height: 1px;
     }
 
-    .video-container::after {
+    #videoContainer::after {
         content: '';
         position: absolute;
         top: 0;
@@ -183,20 +184,14 @@
             <div id='title'>Sustain</div>
         </div>
 
-        <!-- <button onclick="startCamera()">camera</button> -->
-        <div class="video-container">
+        <div id="videoContainer">
             <video id="video" autoplay></video>
         </div>
 
-        <div id="activeTakeContainer">
-            <div id="activeCameraContainer">
-                <canvas id="canvas"></canvas>
-            </div>
-        </div>
+        
 
 
-
-        <div id="takeButtonContainer" onclick="startCamera()">
+        <div id="takeButtonContainer" onclick="switchToActiveTakeUI()">
             <div id='imagePlaceHolderBeforeTaken' class="smallImageContainer">
             </div>
             <div class="button">

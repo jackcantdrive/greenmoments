@@ -27,3 +27,24 @@ async function startCamera() {
         draw();
     };
 }
+
+const addActiveTakeUI = () => {
+    const header = document.getElementById('header');
+
+    const activeTakeContainer = document.createElement('div')
+    header.after(activeTakeContainer);
+
+    activeTakeContainer.outerHTML = `<div id="activeTakeContainer">
+        <div id="activeCameraContainer">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>`;
+}
+
+const switchToActiveTakeUI = () => {
+    addActiveTakeUI();
+    startCamera();
+
+    const takeButtonContainer = document.getElementById('takeButtonContainer');
+    takeButtonContainer.remove();
+}
