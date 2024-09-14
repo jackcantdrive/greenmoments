@@ -1,6 +1,6 @@
 let pauseDrawingWebcamToCanvas = false;
 let webcamStarted = false;
-let userPost = {dataUrl: undefined, timestamp: undefined};
+let userPost = {username: 'alexstock', dataUrl: undefined, timestamp: undefined};
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -104,6 +104,17 @@ const post = () => {
 
     // switchToSmallTakeContainer();
     switchToHavePostedUI();
+    submitPost();
+}
+
+async function submitPost() {
+    const response = await fetch('/addPost', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json' 
+        },
+        body: JSON.stringify(userPost)
+    });
 }
 
 const removeActiveTakeUI = () => {

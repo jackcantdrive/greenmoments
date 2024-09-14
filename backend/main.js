@@ -2,13 +2,17 @@ const express = require('express');
 const https = require('https');
 const fs = require('fs');
 const path = require('path');
+const bodyParser = require('body-parser');
+
 
 const app = express();
 const port = 443;
 
-app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
+app.use(express.static(path.join(__dirname, '../frontend')));
 
 app.post('/addPost', (req, res) => {
   const postData = req.body;
