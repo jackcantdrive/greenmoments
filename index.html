@@ -75,12 +75,23 @@
     }
 
     #friendsPosts {
-        border: 1px solid #f00;
+        /* border: 1px solid #f00; */
         margin: 1vh 3vh;
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    #friendsPostsBlurable {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    #whyFriendsBlurred {
+        margin-bottom: 1vh;
     }
 
     #noFriendsPostsText {
@@ -208,6 +219,8 @@
         position: absolute;
         top: 49vh;
     }
+
+
 </style>
 </head>
 <body>
@@ -236,37 +249,38 @@
         </div> -->
 
         <div id="friendsPosts">
-            
+            <p id="whyFriendsBlurred">Post your Sustain to see friends'.</p>
 
-            <div class="friendPost">
-                <div class="smallImageContainer">
-                    <img src="rainforest.jpg"\>
+            <div id="friendsPostsBlurable">
+
+                <div class="friendPost">
+                    <div class="smallImageContainer">
+                        <img src="rainforest.jpg"\>
+                    </div>
+                    <p id="postText">06:56</p>
+                    <div class="friendTag">
+                        <div class='friendIcon' style="background-color: #2e7c8a;"></div>
+                        <p>jacklatthe</p>
+                    </div>
                 </div>
-                <p id="postText">06:56</p>
-                <div class="friendTag">
-                    <div class='friendIcon' style="background-color: #2e7c8a;"></div>
-                    <p>jacklatthe</p>
+
+                <div class="friendPost">
+                    <div class="smallImageContainer">
+                        <img src="rainforest.jpg"\>
+                    </div>
+                    <p id="postText">07:35</p>
+                    <div class="friendTag">
+                        <div class='friendIcon' style="background-color: #632e8a;"></div>
+                        <p>maxandre</p>
+                    </div>
+                </div>
+
+                <!-- OR -->
+
+                <div id="noFriendsPostsText">
+                    <p>Your friends haven't posted their Sustain yet. Add even more friends.</p>
                 </div>
             </div>
-
-            <div class="friendPost">
-                <div class="smallImageContainer">
-                    <img src="rainforest.jpg"\>
-                </div>
-                <p id="postText">07:35</p>
-                <div class="friendTag">
-                    <div class='friendIcon' style="background-color: #632e8a;"></div>
-                    <p>maxandre</p>
-                </div>
-            </div>
-
-            <!-- OR -->
-
-            <div id="noFriendsPostsText">
-                <p>Your friends haven't posted their Sustain yet. Add even more friends.</p>
-            </div>
-            
-
             <div id="addFriends" class="button">
                 <p>Add Friends</p>
             </div>

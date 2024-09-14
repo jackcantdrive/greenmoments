@@ -1,6 +1,6 @@
 let pauseDrawingWebcamToCanvas = false;
 let webcamStarted = false;
-let userPostDataUrl;
+let userPost = {dataUrl: undefined, timestamp: undefined};
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -62,6 +62,10 @@ const shutter = () => {
 
     pauseDrawingWebcamToCanvas = !pauseDrawingWebcamToCanvas;
 
+    if (pauseDrawingWebcamToCanvas) {
+        userPost.timestamp = Date.now();
+    }
+
     const postButton = document.getElementById('postButton');
     postButton.style.display = pauseDrawingWebcamToCanvas ? '' : 'none';
 }
@@ -94,7 +98,7 @@ const post = () => {
     const base64 = targetCanvas.toDataURL();
     // console.log(base64)
 
-    userPostDataUrl = base64;
+    userPost.dataUrl = base64;
 
     // switchToSmallTakeContainer();
     switchToHavePostedUI();
@@ -173,6 +177,26 @@ const updateTimeRemaining = () => {
     
 }
 
+function formatTimestamp(timestamp) {
+    const date = new Date(timestamp);
+
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${hours}:${minutes}:${seconds}`;
+}
+
+const updateBlurOnFriendsPosts = () => {
+    const friendsPostsBlurable = document.getElementById('friendsPostsBlurable');
+
+    const hideFriendsPosts = userPost.dataUrl === undefined;
+    friendsPostsBlurable.style.filter = hideFriendsPosts ? 'blur(5px)' : '';
+
+    const whyFriendsBlurredEle = document.getElementById('whyFriendsBlurred');
+    whyFriendsBlurredEle.style.display = hideFriendsPosts ? '' : 'none';
+}
+
 const addHavePostedUI = () => {
     const header = document.getElementById('header');
     const ele = document.createElement('div');
@@ -181,9 +205,9 @@ const addHavePostedUI = () => {
 
     ele.outerHTML = `<div id="imageOuterContainer">
             <div class="smallImageContainer">
-                <img src="${userPostDataUrl}"\>
+                <img src="${userPost.dataUrl}"\>
             </div>
-            <p id="postText">05:42</p>
+            <p id="postText">${formatTimestamp(userPost.timestamp)}</p>
         </div>`
 }
 
@@ -192,6 +216,7 @@ const switchToHavePostedUI = () => {
     removeActiveTakeUI();
     clearInterval(updateTimeRemainingInterval);
     addHavePostedUI();
+    updateBlurOnFriendsPosts();
 }
 
 let takeContainer;
@@ -222,4 +247,5 @@ let updateTimeRemainingInterval;
 
 
 addTakeContainer();
+updateBlurOnFriendsPosts();
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
