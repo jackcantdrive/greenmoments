@@ -269,7 +269,6 @@ const addFriendPost = postData => {
 
 const addsFriendsPosts = friendsPosts => {
     const friendsPostsBlurable = document.getElementById('friendsPostsBlurable');
-    const friendsPostsEle = document.getElementById('friendsPosts');
     friendsPostsBlurable.innerHTML = '';
 
     let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
@@ -278,22 +277,6 @@ const addsFriendsPosts = friendsPosts => {
     } else {
         whyFriendsBlurred.textContent = `Post your Sustain to see friends`
     }
-
-    // let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
-    // whyFriendsBlurred.remove();
-
-    // if (friendsPosts.length === 0) {
-    //     const noFriendsPostsEle = document.createElement('div');
-    //     friendsPostsBlurable.append(noFriendsPostsEle);
-    //     noFriendsPostsEle.outerHTML = `<div id="noFriendsPostsText">
-    //                 <p>Your friends haven't posted their Sustain yet. Add even more friends.</p>
-    //             </div>`
-    //     return;
-    // }
-
-    // const whyFriendsBlurredNew = document.createElement('div')
-    // friendsPosts.prepend(whyFriendsBlurredNew);
-    // whyFriendsBlurredNew.outerHTML = `<p id="whyFriendsBlurred">Post your Sustain to see friends'.</p>`;
 
     for (const postData of friendsPosts) {
         addFriendPost(postData);
