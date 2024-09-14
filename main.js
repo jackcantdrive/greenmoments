@@ -211,6 +211,96 @@ const addHavePostedUI = () => {
         </div>`
 }
 
+const exampleFriendsPosts = [
+    {
+        username: 'jacklatthe',
+        timestamp: new Date('2024-09-15 06:56'),
+        dataUrl: 'rainforest.jpg'
+    },
+    {
+        username: 'maxandre',
+        timestamp: new Date('2024-09-15 06:56'),
+        dataUrl: 'rainforest.jpg'
+    },
+];
+
+const addFriendPost = postData => {
+    let postEle = document.createElement('div');
+    const friendsPostsBlurable = document.getElementById('friendsPostsBlurable');
+
+    // friendsPostsBlurable.append(postEle);
+
+
+    // postEle.outerHTML = `<div class="friendPost">
+    //                 <div class="smallImageContainer">
+    //                     <img src="${postdata.dataUrl}"\>
+    //                 </div>
+    //                 <p id="postText">${formatTimestamp(postData.timestamp)}</p>
+    //                 <div class="friendTag">
+    //                     <div class='friendIcon' style="background-color: #2e7c8a;"></div>
+    //                     <p>${postData.username}</p>
+    //                 </div>
+    //             </div>`
+    // oh fine let's care a little bit about script injection
+    
+    
+    const outerTemp = document.createElement('div');
+    outerTemp.append(postEle);
+
+    postEle.outerHTML = `<div class="friendPost">
+                    <div class="smallImageContainer">
+                        <img src=""\>
+                    </div>
+                    <p id="postText"></p>
+                    <div class="friendTag">
+                        <div class='friendIcon' style="background-color: #2e7c8a;"></div>
+                        <p></p>
+                    </div>
+                </div>`
+
+
+    postEle = outerTemp.children[0];
+    postEle.querySelector('img').src = postData.dataUrl;
+    postEle.querySelector('#postText').textContent = formatTimestamp(postData.timestamp);
+    postEle.querySelector('.friendTag > p').textContent = postData.username;
+
+    friendsPostsBlurable.append(postEle);
+}
+
+const addsFriendsPosts = friendsPosts => {
+    const friendsPostsBlurable = document.getElementById('friendsPostsBlurable');
+    const friendsPostsEle = document.getElementById('friendsPosts');
+    friendsPostsBlurable.innerHTML = '';
+
+    let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
+    if (friendsPosts.length === 0) {
+        whyFriendsBlurred.textContent = `Your friends haven't posted their Sustain yet. Add even more friends.`;
+    } else {
+        whyFriendsBlurred.textContent = `Post your Sustain to see friends`
+    }
+
+    // let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
+    // whyFriendsBlurred.remove();
+
+    // if (friendsPosts.length === 0) {
+    //     const noFriendsPostsEle = document.createElement('div');
+    //     friendsPostsBlurable.append(noFriendsPostsEle);
+    //     noFriendsPostsEle.outerHTML = `<div id="noFriendsPostsText">
+    //                 <p>Your friends haven't posted their Sustain yet. Add even more friends.</p>
+    //             </div>`
+    //     return;
+    // }
+
+    // const whyFriendsBlurredNew = document.createElement('div')
+    // friendsPosts.prepend(whyFriendsBlurredNew);
+    // whyFriendsBlurredNew.outerHTML = `<p id="whyFriendsBlurred">Post your Sustain to see friends'.</p>`;
+
+    for (const postData of friendsPosts) {
+        addFriendPost(postData);
+    }
+}
+
+
 const switchToHavePostedUI = () => {
     console.assert(showingActiveTakeContainer());
     removeActiveTakeUI();
