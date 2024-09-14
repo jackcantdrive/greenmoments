@@ -123,6 +123,9 @@
 
     #imagePlaceHolderBeforeTaken {
         border: 1px solid #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     #activeTakeContainer {
@@ -193,6 +196,7 @@
 
         <div id="takeButtonContainer" onclick="switchToActiveTakeUI()">
             <div id='imagePlaceHolderBeforeTaken' class="smallImageContainer">
+                <p id="timeRemaining">1:52</p>
             </div>
             <div class="button">
                 Take your Sustain

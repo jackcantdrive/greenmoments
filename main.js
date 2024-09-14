@@ -28,6 +28,9 @@ async function startCamera() {
     };
 }
 
+const nextRewardTime = +new Date() + 1000 * 5;
+const periodDuration = 1000 * 60 * 0.05;
+
 const addActiveTakeUI = () => {
     const header = document.getElementById('header');
 
@@ -48,3 +51,33 @@ const switchToActiveTakeUI = () => {
     const takeButtonContainer = document.getElementById('takeButtonContainer');
     takeButtonContainer.remove();
 }
+
+const updateTimeRemaining = () => {
+    const timeRemainingEle = document.getElementById('timeRemaining');
+    const now = Date.now();
+    const timeIntoPeriod = now - nextRewardTime;
+    const timeRemaining = periodDuration - timeIntoPeriod;
+    if (timeRemaining > 0) {
+        const seconds = Math.ceil(timeRemaining/1000);
+        const minutes = Math.floor(seconds/60);
+        const secondsMod = seconds % 60;
+
+        const secondsStr = ('' + secondsMod).padStart(2, '0')
+
+        const timeRemainingStr = `${minutes}:${secondsStr}`;
+        timeRemainingEle.textContent = timeRemainingStr;
+    } else {
+        // too late. pay B3TR or wait for next day
+        console.log('too late. pay B3TR or wait for next day')
+
+        timeRemainingEle.textContent = 'You missed the period.';
+    }
+}
+
+
+const tick = () => {
+
+    updateTimeRemaining();
+    requestAnimationFrame(tick);
+}
+tick();
