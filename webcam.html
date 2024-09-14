@@ -12,17 +12,24 @@
 </head>
 <body>
     <!-- <video id="video" width="640" height="480" autoplay muted></video> -->
-    <video id="video" loop autoplay controls="true" width='100%' height='100%'></video>
+    <!-- <video id="video" loop autoplay controls="true" width='100%' height='100%'></video> -->
+    <video id="video"></video>
 
     <script>
         async function startVideo() {
             const video = document.getElementById('video');
+            video.setAttribute('autoplay', '');
+            video.setAttribute('muted', '');
+            video.setAttribute('playsinline', '')
 
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
                 video.srcObject = stream;
                 // alert('ok')
-                setTimeout(() => {alert(video.videoHeight)}, 1000)
+                setTimeout(() => {
+                    // alert(video.videoHeight);
+                    video.play();
+                }, 3000)
 
             } catch (error) {
                 alert('fail')
@@ -32,5 +39,6 @@
 
         startVideo();
     </script>
+    <button onclick="video.play();">aaa</button>
 </body>
 </html>
