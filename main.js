@@ -1,4 +1,5 @@
 let pauseDrawingWebcamToCanvas = false;
+let webcamStarted = false;
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -19,6 +20,7 @@ async function startCamera() {
     video.srcObject = stream;
 
     video.onloadedmetadata = () => {
+        webcamStarted = true;
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
 
@@ -33,7 +35,7 @@ async function startCamera() {
 }
 
 const nextRewardTime = +new Date() + 1000 * 1;
-const periodDuration = 1000 * 60 * 0.03;
+const periodDuration = 1000 * 60 * 1;
 
 const addActiveTakeUI = () => {
     const header = document.getElementById('header');
@@ -53,7 +55,10 @@ const addActiveTakeUI = () => {
 
 
 const shutter = () => {
-    console.log('shutter');
+
+    if (!webcamStarted) {
+        return;
+    }
 
     pauseDrawingWebcamToCanvas = !pauseDrawingWebcamToCanvas;
 
