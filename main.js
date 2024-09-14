@@ -49,7 +49,7 @@ const addActiveTakeUI = () => {
             <p id='timeRemaining'></p>
             <canvas id="canvas"></canvas>
             <div id='postButton' style='display:none;' class='button' onclick='post()'>Post</div>
-            <div id='shutterButton' onclick='shutter()'></div>
+            <div id='shutterButton' class='button' onclick='shutter()'>Take Photo</div>
         </div>
     </div>`;
 }
@@ -67,7 +67,9 @@ const shutter = () => {
     }
 
     const postButton = document.getElementById('postButton');
+    const shutterButton = document.getElementById('shutterButton');
     postButton.style.display = pauseDrawingWebcamToCanvas ? '' : 'none';
+    shutterButton.textContent = pauseDrawingWebcamToCanvas ? 'Retake' : 'Take Photo'
 }
 
 const post = () => {
