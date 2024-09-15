@@ -95,6 +95,15 @@ const getExistingUsername = async (address) => {
     return undefined;
 }
 
+const tryToSetExistingUsernameFromPosts = async (address) => {
+    const existingUsername = await getExistingUsername(address);
+    if (existingUsername) {
+        console.log('found existing username from posts:', existingUsername)
+        userPost.username = existingUsername;
+    }
+    
+};
+
 const handleConnected = async (address) => {
     if (address) {
         console.log(address);
@@ -103,16 +112,12 @@ const handleConnected = async (address) => {
         //     -4,
         // )}`;
         // console.log(`Disconnect from ${formattedAddress}`);
+
+        await tryToSetExistingUsernameFromPosts(address);
     }
     //  else {
     //     console.log('Connect Custom Button');
     // }
-
-    const existingUsername = await getExistingUsername(address);
-    if (existingUsername) {
-        console.log('found existing username from posts:', existingUsername)
-        userPost.username = existingUsername;
-    }
     
 };
 
@@ -176,7 +181,23 @@ const getSustainableAction = () => {
     return actions[1];
 }
 
-const nextRewardTime = +new Date() + 1000 * 1;
+// const nextRewardTime = +new Date() + 1000 * 1;
+const rewardTimes = [
+    +new Date('2025-01-01 00:00'),
+    +new Date() + 1000 * 1,
+    +new Date('2024-09-15 00:00'),
+];
+
+let now = Date.now();
+const timesAfterNow = rewardTimes.filter(t => t >= now);
+const timesBeforeNow = rewardTimes.filter(t => t < now);
+let nextRewardTime;
+if (timesAfterNow.length === 0) {
+    nextRewardTime = Math.max(...rewardTimes);
+} else {
+    nextRewardTime = Math.min(...timesAfterNow);
+}
+const mostRecentPastRewardTime = Math.max(...timesBeforeNow)
 const periodDuration = 1000 * 60 * 1;
 
 const addActiveTakeUI = () => {
@@ -511,8 +532,10 @@ const addsFriendsPosts = friendsPosts => {
 
 
 const switchToHavePostedUI = () => {
-    console.assert(showingActiveTakeContainer());
-    removeActiveTakeUI();
+    // console.assert(showingActiveTakeContainer());
+    if (showingActiveTakeContainer()) {
+        removeActiveTakeUI();
+    }
     clearInterval(updateTimeRemainingInterval);
     addHavePostedUI();
     updateBlurOnFriendsPosts();
@@ -568,7 +591,20 @@ const loadPosts = async () => {
         }
     })).json();
     postsData.sort((a,b) => b.timestamp - a.timestamp);
-    addsFriendsPosts(postsData);
+    await tryToSetExistingUsernameFromPosts(DAppKitUI.wallet.state.address);
+
+    const postInPeriod = postsData.find(postData => postData.username === userPost.username && postData.timestamp > mostRecentPastRewardTime && postData.timestamp < nextRewardTime);
+
+    if (postInPeriod) {
+        userPost = postInPeriod;
+        removeStartTakeUI();
+        switchToHavePostedUI();
+    }
+
+    addsFriendsPosts(postsData.filter(postsData => postsData !== userPost));
+
+
+
 }
 loadPosts();
 
