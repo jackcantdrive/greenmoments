@@ -176,6 +176,7 @@ const getSustainableAction = () => {
     const actions = [
         'Try finding a piece of litter to clean up and throw it in the trash or recycling.',
         'Take a moment to water a plant in your home or neighborhood.',
+        'Attend a sustainability hackathon pitch',
     ];
 
     return actions[1];
@@ -185,6 +186,7 @@ const getSustainableAction = () => {
 const rewardTimes = [
     +new Date('2025-01-01 00:00'),
     +new Date() + 1000 * 1,
+    // +new Date() + 1000 * -20,
     +new Date('2024-09-15 00:00'),
 ];
 
@@ -496,7 +498,9 @@ const addFriendPost = postData => {
     setPostBorder(postData, postEle);
     postEle.querySelector('img').src = postData.dataUrl;
     postEle.querySelector('#postText').textContent = formatTimestamp(postData.timestamp);
-    postEle.querySelector('.friendTag > p').textContent = postData.username;
+    // postEle.querySelector('.friendTag > p').textContent = postData.username + ` (${pointsByUsername[postData.username] ?? 0}ø)`;
+    postEle.querySelector('.friendTag > p').textContent = postData.username
+    // debugger
 
     friendsPostsBlurable.append(postEle);
 }
@@ -572,6 +576,8 @@ updateDefaultUsername();
 // addsFriendsPosts(exampleFriendsPosts)
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
 
+let pointsByUsername = {};
+
 const loadPosts = async () => {
     const postsData = await (await fetch(SERVER_ADDRESS + '/getPosts', {
         headers: {
@@ -589,10 +595,13 @@ const loadPosts = async () => {
         switchToHavePostedUI();
     }
 
+    pointsByUsername = postsData.reduce((counts, postData) => {
+        counts[postData.username] ??= 0;
+        counts[postData.username]++;
+        return counts
+    }, {})
+
     addsFriendsPosts(postsData.filter(postsData => postsData !== userPost));
-
-
-
 }
 loadPosts();
 
