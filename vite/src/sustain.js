@@ -79,9 +79,26 @@ const {thor, vendor, wallet, modal} = DAppKitUI
 
 // foo();
 
-const handleConnected = (address) => {
+
+const getExistingUsername = async (address) => {
+    const postsData = await (await fetch(SERVER_ADDRESS + '/getPosts', {
+        headers: {
+            "ngrok-skip-browser-warning": "1",
+        }
+    })).json();
+
+    const match = postsData.find(postData => postData.userAddress === address);
+    if (match) {
+        return match.username;
+    }
+
+    return undefined;
+}
+
+const handleConnected = async (address) => {
     if (address) {
         console.log(address);
+        // console.log('hkg')
         // const formattedAddress = `${address.slice(0, 6)}...${address.slice(
         //     -4,
         // )}`;
@@ -90,6 +107,13 @@ const handleConnected = (address) => {
     //  else {
     //     console.log('Connect Custom Button');
     // }
+
+    const existingUsername = await getExistingUsername(address);
+    if (existingUsername) {
+        console.log('found existing username from posts:', existingUsername)
+        userPost.username = existingUsername;
+    }
+    
 };
 
 handleConnected(DAppKitUI.wallet.state.address);
@@ -102,8 +126,12 @@ DAppKitUI.modal.onConnectionStatusChange(handleConnected);
 
 let pauseDrawingWebcamToCanvas = false;
 let webcamStarted = false;
-const testUsernames = ['alexstock', 'jacklatthe', 'maxandre']
-let userPost = {username: testUsernames[0], dataUrl: undefined, timestamp: undefined};
+
+const username = localStorage.username ?? getRandomUsername();
+localStorage.username = username;
+// const testUsernames = ['alexstock', 'jacklatthe', 'maxandre']
+// let userPost = {username: testUsernames[0], dataUrl: undefined, timestamp: undefined};
+let userPost = {username, dataUrl: undefined, timestamp: undefined};
 
 async function startCamera() {
     const stream = await navigator.mediaDevices.getUserMedia({
@@ -227,11 +255,12 @@ const post = () => {
 }
 
 const checkForUsernameUpdates = () => {
-    const usernameEle = document.getElementById('username');
+    // const usernameEle = document.getElementById('username');
 
-    if (usernameEle.value) {
-        userPost.username = usernameEle.value;
-    }
+    // if (usernameEle.value) {
+    //     userPost.username = usernameEle.value;
+    // }
+    return;
 }
 
 async function submitPost() {
@@ -239,6 +268,7 @@ async function submitPost() {
     // console.log(userAddress)
     const userAddressPresent = userAddress !== null;
 
+    userPost.userAddress = userAddress;
     const postData = userPost;
     const postDataClone = {...userPost};
     delete postDataClone.postEle;
@@ -471,7 +501,7 @@ const addsFriendsPosts = friendsPosts => {
         whyFriendsBlurred.textContent = `Your friends haven't posted their Sustain yet. Add even more friends.`;
         whyFriendsBlurred.reason = 'NO_FRIEND_POSTS'
     } else {
-        whyFriendsBlurred.textContent = `Post your Sustain to see friends`
+        whyFriendsBlurred.textContent = `Post your Sustain to see friends'.`
     }
 
     for (const postData of friendsPosts) {
@@ -516,7 +546,9 @@ const removeStartTakeUI = () => {
 const updateDefaultUsername = () => {
     const username = getRandomUsername();
     const usernameEle = document.getElementById('username');
-    usernameEle.value = username;
+    if (usernameEle) {
+        usernameEle.value = username;
+    }
 }
 
 
