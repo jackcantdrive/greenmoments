@@ -1,7 +1,8 @@
 import OpenAI from "openai";
 import sharp from 'sharp';
 
-const mockImageModelCall = false;
+const mockImageModelCall = true;
+// const mockImageModelCall = false;
 
 const openai = new OpenAI();
 

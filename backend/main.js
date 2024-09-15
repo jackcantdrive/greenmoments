@@ -5,6 +5,7 @@ import path from 'path';
 import bodyParser from 'body-parser';
 import { v4 as uuidv4 } from 'uuid';
 import { verifyImage } from './verification.js';
+import { distribute } from './distribute.js';
 import cors from 'cors';
 
 import { fileURLToPath } from 'url';
@@ -36,7 +37,11 @@ if (!fs.existsSync(postsDir)) {
 }
 
 app.post('/addPost', async (req, res) => {
-  const postData = req.body;
+  const postData = req.body.postData;
+  const userAddress = req.body.userAddress;
+  const userAddressPresent = req.body.userAddressPresent;
+
+  console.log(userAddressPresent, userAddress)
 
   // Generate a unique ID with a timestamp
   const timestamp = Date.now();
@@ -47,6 +52,10 @@ app.post('/addPost', async (req, res) => {
 
   const verificationResult = await verifyPost(postData);
   postData.sustainable = verificationResult.verifiedSustainable;
+
+  if (postData.sustainable && userAddressPresent) {
+    distribute(userAddress);
+  }
 
   // Write the post data to a JSON file
   fs.writeFile(filePath, JSON.stringify(postData, null, 2), (err) => {

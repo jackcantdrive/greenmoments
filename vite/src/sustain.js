@@ -224,6 +224,10 @@ const post = () => {
 
 async function submitPost() {
 
+    const userAddress = DAppKitUI.wallet.state.address;
+    // console.log(userAddress)
+    const userAddressPresent = userAddress !== null;
+
     const postData = userPost;
     const postDataClone = {...userPost};
     delete postDataClone.postEle;
@@ -233,7 +237,7 @@ async function submitPost() {
             'Content-Type': 'application/json',
             "ngrok-skip-browser-warning": "1",
         },
-        body: JSON.stringify(postDataClone)
+        body: JSON.stringify({postData: postDataClone, userAddressPresent, userAddress})
     });
     const responseData = await response.json();
     const postDataWithVerification = responseData.data;
