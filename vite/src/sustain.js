@@ -358,7 +358,8 @@ const getTimeRemainingStr = () => {
     // too late. pay B3TR or wait for next day
     // console.log('too late. pay B3TR or wait for next day')
 
-    return {timeRemaining, inPeriod: false, timeRemainingStr: 'You missed the period. Come again tomorrow or unlock for 1 B3TR.'};
+    // return {timeRemaining, inPeriod: false, timeRemainingStr: 'You missed the period. Come again tomorrow or unlock for 1 B3TR.'};
+    return {timeRemaining, inPeriod: false, timeRemainingStr: 'You missed the period. Come again tomorrow.'};
 }
 
 const showingActiveTakeContainer = () => {
@@ -446,19 +447,6 @@ const addHavePostedUI = () => {
     setPostBorder(userPost, ele);
 }
 
-const exampleFriendsPosts = [
-    {
-        username: 'jacklatthe',
-        timestamp: new Date('2024-09-15 06:56'),
-        dataUrl: 'rainforest.jpg'
-    },
-    {
-        username: 'maxandre',
-        timestamp: new Date('2024-09-15 06:56'),
-        dataUrl: 'rainforest.jpg'
-    },
-];
-
 const setPostBorder = (postData, postEle) => {
     const classList = postEle.querySelector('.smallImageContainer').classList;
     classList.add('border');
@@ -519,10 +507,10 @@ const addsFriendsPosts = friendsPosts => {
 
     let whyFriendsBlurred = document.getElementById('whyFriendsBlurred');
     if (friendsPosts.length === 0) {
-        whyFriendsBlurred.textContent = `Your friends haven't posted their Sustain yet. Add even more friends.`;
+        whyFriendsBlurred.textContent = `Others haven't posted their Sustain yet. Be the first!`;
         whyFriendsBlurred.reason = 'NO_FRIEND_POSTS'
     } else {
-        whyFriendsBlurred.textContent = `Post your Sustain to see friends'.`
+        whyFriendsBlurred.textContent = `Post your Sustain to see others'.`
     }
 
     for (const postData of friendsPosts) {
