@@ -269,6 +269,27 @@
         transform-origin: right;
     }
 
+    #signup {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 2vh;
+        margin-top: 2vh;
+    }
+
+    #signup input {
+        text-align: center;
+    }
+
+    #signupTitle {
+        /* margin-bottom: 1vh; */
+        margin-top: 2vh;
+    }
+
+    .signupEntryType {
+        /* width: 5vh; */
+    }
+
 
 </style>
 </head>
@@ -281,6 +302,14 @@
                     <vdk-button></vdk-button>
                 </div>
             </div>
+        </div>
+
+        <div id="signup">
+            <!-- <div>Username</div> -->
+            <div> <div class='signupEntryType'>Username</div> <input id='username' placeholder="username"></input></div>
+            <div> <div class='signupEntryType'>Email</div> <input placeholder="you@domain.com"></input></div>
+            <div> <div class='signupEntryType'>Password</div> <input placeholder="*****" type="password"></input></div>
+            <div class='button' id="signupTitle">Sign Up</div>
         </div>
 
         <div id="videoContainer">

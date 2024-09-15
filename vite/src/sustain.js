@@ -1,5 +1,7 @@
 
-const SERVER_ADDRESS = 'https://25e4-155-69-193-63.ngrok-free.app';
+const SERVER_ADDRESS = origin.includes('ngrok-free.app') ? 'https://25e4-155-69-193-63.ngrok-free.app' : (origin.split(':').slice(0, 2).join(':') + ':444')
+
+import { getRandomUsername } from './getRandomUsername.js';
 
 // import { DAppKitUI } from '@vechain/dapp-kit-ui';
 
@@ -187,6 +189,8 @@ const shutter = () => {
 }
 
 const post = () => {
+    checkForUsernameUpdates();
+
     const canvas = document.getElementById('canvas');
 
     // const targetCanvas = document.getElementById('targetCanvas');
@@ -222,8 +226,15 @@ const post = () => {
     submitPost();
 }
 
-async function submitPost() {
+const checkForUsernameUpdates = () => {
+    const usernameEle = document.getElementById('username');
 
+    if (usernameEle.value) {
+        userPost.username = usernameEle.value;
+    }
+}
+
+async function submitPost() {
     const userAddress = DAppKitUI.wallet.state.address;
     // console.log(userAddress)
     const userAddressPresent = userAddress !== null;
@@ -372,9 +383,14 @@ const addHavePostedUI = () => {
                 <img src="${userPost.dataUrl}"\>
             </div>
             <p id="postText">${formatTimestamp(userPost.timestamp)}</p>
+            <div class="friendTag">
+                <div class='friendIcon' style="background-color: hsla(${Math.floor(stringHashTo01(userPost.username) * 360)}, 50%, 36%, 1)"></div>
+                <p></p>
+            </div>
         </div>`
 
     ele = header.parentElement.querySelector('#imageOuterContainer')
+    ele.querySelector('.friendTag > p').textContent = userPost.username;
     userPost.postEle = ele;
     setPostBorder(userPost, ele);
 }
@@ -496,11 +512,20 @@ const removeStartTakeUI = () => {
     // clearInterval(updateTimeRemainingInterval); // now also used in active camera the overlay so don't remove
 }
 
+
+const updateDefaultUsername = () => {
+    const username = getRandomUsername();
+    const usernameEle = document.getElementById('username');
+    usernameEle.value = username;
+}
+
+
 let updateTimeRemainingInterval;
 
 
 addTakeContainer();
 updateBlurOnFriendsPosts();
+updateDefaultUsername();
 // addsFriendsPosts(exampleFriendsPosts)
 updateTimeRemainingInterval = setInterval(updateTimeRemaining, 1000/60);
 
