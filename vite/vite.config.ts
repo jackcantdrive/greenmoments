@@ -20,10 +20,13 @@ export default defineConfig(({ mode }) => ({
         port: 443,
         strictPort: true,
         host: true,
+
         origin: 'https://0.0.0.0:5003',
         https: {
-        key: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/privkey.pem')),
-        cert: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/fullchain.pem'))
+            key: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/privkey.pem')),
+            cert: fs.readFileSync(path.resolve(__dirname, '../backend/self-signed-key/fullchain.pem'))
         }
+
+        // origin: 'http://0.0.0.0:5003',
     },
 }));
